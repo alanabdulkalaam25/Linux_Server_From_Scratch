@@ -1,0 +1,19 @@
+# VM files
+*.vmem
+*.vmdk
+*.nvram
+*.vmxf
+*.lck
+
+# Secrets
+.env
+*.key
+*.pem
+id_rsa
+id_ed25519
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
