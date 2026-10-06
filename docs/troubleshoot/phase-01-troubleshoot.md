@@ -1,12 +1,12 @@
-# Troubleshooting
+# Phase 1 Troubleshooting
 
-This document records issues encountered while building and configuring the Debian Linux server, along with the investigation, root cause, resolution, and verification steps.
+This document records troubleshooting performed during **Phase 1 — Server Installation** of the Debian Linux server project. It documents the SSH connectivity issue encountered during the initial server setup, including investigation, root cause, resolution, verification, and lessons learned.
 
 ---
 
 ## Table of Contents
 
-- [Troubleshooting](#troubleshooting)
+- [Phase 1 Troubleshooting](#phase-1-troubleshooting)
   - [Table of Contents](#table-of-contents)
 - [SSH Connection Timeout During Initial Setup](#ssh-connection-timeout-during-initial-setup)
   - [Problem](#problem)
@@ -52,7 +52,7 @@ The attempted connection was:
 
 ```bash
 ssh alan@192.168.71.136
-````
+```
 
 The connection returned:
 
@@ -68,27 +68,27 @@ The initial assumption was that the SSH service or the Debian firewall might be 
 
 ### Host
 
-* Operating System: Windows
-* Physical network: Wi-Fi
-* Host IP address: `192.168.1.100`
+- Operating System: Windows
+- Physical network: Wi-Fi
+- Host IP address: `192.168.1.100`
 
 ### Hypervisor
 
-* VMware Workstation Pro
+- VMware Workstation Pro
 
 ### Virtual Network
 
-* VMware VMnet8
-* Network type: NAT
-* VMware NAT subnet: `192.168.71.0/24`
-* DHCP: Enabled
+- VMware VMnet8
+- Network type: NAT
+- VMware NAT subnet: `192.168.71.0/24`
+- DHCP: Enabled
 
 ### Debian Server
 
-* Network interface: `ens33`
-* IP address: `192.168.71.136/24`
-* Default gateway: `192.168.71.2`
-* SSH port: `22`
+- Network interface: `ens33`
+- IP address: `192.168.71.136/24`
+- Default gateway: `192.168.71.2`
+- SSH port: `22`
 
 ---
 
@@ -96,7 +96,7 @@ The initial assumption was that the SSH service or the Debian firewall might be 
 
 The issue was investigated layer by layer instead of immediately changing the SSH configuration.
 
-The investigation followed this general path:
+The investigation followed this path:
 
 ```text
 SSH connection
@@ -180,9 +180,9 @@ default via 192.168.71.2 dev ens33 proto dhcp
 
 This indicated that Debian had:
 
-* A valid IP address
-* A connected route to the `192.168.71.0/24` network
-* A default route through `192.168.71.2`
+- A valid IP address
+- A connected route to the `192.168.71.0/24` network
+- A default route through `192.168.71.2`
 
 ### Connectivity Test
 
@@ -496,37 +496,38 @@ ssh alan@192.168.71.136
 After resolving the issue, the relevant network topology became:
 
 ```text
-                         Physical Network
-                         192.168.1.0/24
+                          Physical Network
+                          192.168.1.0/24
                                 │
                                 │
-                         Home Router
-                         192.168.1.1
+                          Home Router
+                          192.168.1.1
                                 │
                                 │
-                       Windows Host
-                       192.168.1.100
+                        Windows Host
+                        192.168.1.100
                                 │
                                 │
-                       VMware Workstation
+                        VMware Workstation
                                 │
-                         ┌──────┴──────┐
-                         │   VMnet8    │
-                         │     NAT     │
-                         │192.168.71.0/24
-                         └──────┬──────┘
                                 │
-               ┌────────────────┼────────────────┐
-               │                │                │
-               │                │                │
-       Windows VMnet8     VMware NAT        Debian Server
-       192.168.71.1       192.168.71.2      192.168.71.136
+                          ┌─────┴─────┐
+                          │  VMnet8   │
+                          │    NAT    │
+                          │192.168.71.0/24
+                          └─────┬─────┘
+                                │
+                ┌───────────────┼───────────────┐
+                │               │               │
+                │               │               │
+        Windows VMnet8      VMware NAT     Debian Server
+        192.168.71.1       192.168.71.2    192.168.71.136
                                                 │
                                                 │
-                                           SSH : TCP/22
+                                            SSH : TCP/22
                                                 │
                                                 ▼
-                                         Remote Administration
+                                        Remote Administration
 ```
 
 ---

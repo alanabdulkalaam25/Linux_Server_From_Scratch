@@ -96,7 +96,7 @@ The server will be developed progressively from a minimal Debian installation in
               │          │          │
               │          │          │
         Administration  Web      Services
-````
+```
 
 The architecture will be expanded as additional components are introduced.
 
@@ -133,7 +133,7 @@ Documentation:
 
 ### Phase 2 — Linux System Administration
 
-**Status: Planned**
+**Status: Completed**
 
 Topics will include:
 
@@ -148,6 +148,10 @@ Topics will include:
 * Package management
 * Environment variables
 * Shell configuration
+
+Documentation:
+
+* [`Phase 2 — Linux System Administration`](docs/phase-02-system-administration.md)
 
 ---
 
