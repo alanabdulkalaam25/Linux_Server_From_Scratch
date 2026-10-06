@@ -127,7 +127,7 @@ Covered:
 Documentation:
 
 * [`Phase 1 — Server Installation`](docs/phase-01-installation.md)
-* [`Troubleshooting`](docs/troubleshooting.md)
+* [`Troubleshooting`](docs/troubleshoot/phase-01-troubleshoot.md)
 
 ---
 
@@ -152,6 +152,7 @@ Topics will include:
 Documentation:
 
 * [`Phase 2 — Linux System Administration`](docs/phase-02-system-administration.md)
+* [`Troubleshooting`](docs/troubleshoot/phase-02-troubleshoot.md)
 
 ---
 
